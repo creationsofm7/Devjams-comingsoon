@@ -49,7 +49,8 @@ const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
       <div className="flex justify-center space-x-4">
         {timerComponents.map(({ label, value, colors }) => (
           <div key={label} className="text-center">
-            <div className="bg-gray-800 rounded-lg p-4 relative overflow-hidden">
+            <div className="bg-gray-800 rounded-lg px-14 py-4 relative overflow-hidden border-2">
+              <div className={`absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r ${colors}`}></div>
               <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${colors}`}></div>
               <div className="text-5xl font-bold mb-2">{value?.toString().padStart(2, '0') || '00'}</div>
               <div className="text-sm">{label}</div>
