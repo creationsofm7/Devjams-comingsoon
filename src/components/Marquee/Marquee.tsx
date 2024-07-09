@@ -6,16 +6,16 @@ const Marquee: React.FC = () => {
     <div className="marquee-container">
       <div className="marquee">
         <div className="marquee-content">
-          <span className="marquee-item">🌐 Do Crazy Things That Matter</span>
-          <span className="marquee-item">🌐 Do Crazy Things That Matter</span>
-          <span className="marquee-item">🌐 Do Crazy Things That Matter</span>
-          <span className="marquee-item">🌐 Do Crazy Things That Matter</span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter&nbsp;</span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter&nbsp;</span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter&nbsp;</span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter&nbsp;</span>
         </div>
         <div className="marquee-content">
-          <span className="marquee-item">🌐 Do Crazy Things That Matter </span>
-          <span className="marquee-item">🌐 Do Crazy Things That Matter </span>
-          <span className="marquee-item">🌐 Do Crazy Things That Matter </span>
-          <span className="marquee-item">🌐 Do Crazy Things That Matter </span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter&nbsp; </span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter &nbsp;</span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter &nbsp;</span>
+          <span className="marquee-item">🌐 Do Crazy Things That Matter&nbsp; </span>
         </div>
       </div>
     </div>
