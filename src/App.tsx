@@ -18,6 +18,7 @@ function App() {
         <div>
           <CountdownTimer targetDate={targetDate} />
         </div>
+        
         <div className="flex flex-1 w-full">
           <div className="text-6xl font-semibold align-middle justify-center mt-40 m-40 ">
             <h1>Frequently</h1>
