@@ -1,0 +1,41 @@
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #202124; /* Dark background color */
+    color: white; /* White text color */
+    width: 100vw; /* Full viewport width */
+    height: 10vh; /* 15% of viewport height */
+    display: flex;
+    align-items: center;
+    border-top: white 2px solid; /* White border on top */
+    border-bottom: white 2px solid; /* White border on bottom */
+  }
+  
+  .marquee {
+    display: flex;
+    width: 200%; /* Double the width for seamless looping */
+    animation: marquee 20s linear infinite;
+  }
+  
+  .marquee-content {
+    display: flex;
+    width: 100%; /* Each set of items takes up 100% of the container width */
+    justify-content: space-around; /* Space out the items evenly */
+  }
+  
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    font-size: 5vh; /* 75% of 15vh */
+  }
+  
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  

@@ -6,6 +6,7 @@ import Navbar from "./components/navbar/navbar";
 import ContactCard from "./components/contactpage/contact";
 import SocialMediaBar from "./components/social/social";
 import PinnedSVG from "./components/pinned";
+import Marquee from "./components/Marquee/Marquee";
 
 function App() {
   const targetDate: string = "2024-08-04T00:00:00";
@@ -18,6 +19,8 @@ function App() {
         <div>
           <CountdownTimer targetDate={targetDate} />
         </div>
+
+        <Marquee />
         
         <div className="flex flex-1 w-full">
           <div className="text-6xl font-semibold align-middle justify-center mt-40 m-40 ">
