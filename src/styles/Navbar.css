@@ -56,7 +56,7 @@
     border-radius: 9999px; /* rounded-full */
     display: flex;
     align-items: center;
-    space-x: 0.5rem; /* space-x-2 */
+    gap: 0.5rem; /* space-x-2 */
   }
   
   .navbar-button-icon {
