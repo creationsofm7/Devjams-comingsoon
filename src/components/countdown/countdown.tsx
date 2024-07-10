@@ -45,7 +45,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
 
   return (
     <div className="contact-c text-white p-4 sm:p-6 md:p-8 rounded-lg">
-      <h2 className="text-2xl sm:text-1xl font-normal md:text-4xl font-bold mb-4 sm:mb-6 md:mb-8 text-center">Registrations Opening Soon!</h2>
+      <h2 className="text-2xl sm:text-1xl font-normal md:text-4xl mb-4 sm:mb-6 md:mb-8 text-center">Registrations Opening Soon!</h2>
       <div className="flex flex-wrap justify-center gap-4">
         {timerComponents.map(({ label, value, colors }) => (
           <div key={label} className="text-center w-full sm:w-1/2 md:w-auto">
