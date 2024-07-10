@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 type CountdownTimerProps = {
-    targetDate: string;
-    };
+  targetDate: string;
+};
 
-const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
+const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  function calculateTimeLeft(): { days: number, hours: number, minutes: number, seconds: number } {
+  function calculateTimeLeft(): { days: number; hours: number; minutes: number; seconds: number } {
     const difference = +new Date(targetDate) - +new Date();
     let timeLeft = {
       days: 0,
@@ -15,7 +15,7 @@ const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
       minutes: 0,
       seconds: 0,
     };
-  
+
     if (difference > 0) {
       timeLeft = {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -24,7 +24,7 @@ const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
         seconds: Math.floor((difference / 1000) % 60),
       };
     }
-  
+
     return timeLeft;
   }
 
@@ -44,16 +44,16 @@ const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
   ];
 
   return (
-    <div className="bg-gray-900 text-white p-8 rounded-lg">
-      <h2 className="text-4xl font-bold mb-8 text-center">Registrations Opening Soon!</h2>
-      <div className="flex justify-center space-x-4">
+    <div className="bg-gray-900 text-white p-4 sm:p-6 md:p-8 rounded-lg">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 md:mb-8 text-center">Registrations Opening Soon!</h2>
+      <div className="flex flex-wrap justify-center gap-4">
         {timerComponents.map(({ label, value, colors }) => (
-          <div key={label} className="text-center">
-            <div className="bg-gray-800 rounded-lg px-14 py-4 relative overflow-hidden border-2">
+          <div key={label} className="text-center w-full sm:w-1/2 md:w-auto">
+            <div className="bg-gray-800 rounded-lg px-4 sm:px-8 md:px-10 py-3 sm:py-4 relative overflow-hidden border-2">
               <div className={`absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r ${colors}`}></div>
               <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${colors}`}></div>
-              <div className="text-5xl font-bold mb-5">{value?.toString().padStart(2, '0') || '00'}</div>
-              <div className="text-sm">{label}</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 md:mb-4">{value?.toString().padStart(2, '0') || '00'}</div>
+              <div className="text-xs sm:text-sm">{label}</div>
             </div>
           </div>
         ))}
