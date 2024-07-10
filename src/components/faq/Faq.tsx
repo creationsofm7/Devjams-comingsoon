@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import upperdino from "../../assets/upperdino.png";
@@ -7,37 +7,33 @@ import { sections } from "../Card/sections";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type FAQItemProps = {
+interface FAQItemProps {
   question: string;
   answer: string;
-};
+}
 
-type FAQSectionProps = {
+interface FAQSectionProps {
   title: string;
   faqs: FAQItemProps[];
   gradientColors: string;
-};
+}
 
-const FAQItem = ({ question, answer }: FAQItemProps) => {
+const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
   return (
-    <div className="border p-4">
-      <div className="">
-        <h3 className="text-white text-lg font-medium">{question}</h3>
-      </div>
-      <div className=" contact-c text-gray-300">
-        <p>{answer}</p>
-      </div>
+    <div className="border border-gray-700 p-4">
+      <h3 className="text-white text-lg font-medium mb-2">{question}</h3>
+      <p className="text-gray-300">{answer}</p>
     </div>
   );
 };
 
-const FAQSection = ({ title, faqs, gradientColors }: FAQSectionProps) => {
+const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs, gradientColors }) => {
   return (
-    <div className="max-w-2xl mx-auto p-4 mb-8 faq-section">
+    <div className="max-w-2xl mx-auto  mb-8 faq-section contact-c border-2 border-white rounded-lg">
       <div className={`bg-gradient-to-r ${gradientColors} p-4 rounded-t-lg`}>
-        <h2 className="text-2xl font-bold text-white">{title}</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-white">{title}</h2>
       </div>
-      <div className="contact-c rounded-b-md overflow-hidden border border-gray-700 border-t-0">
+      <div className="rounded-b-md overflow-hidden border border-gray-700 border-t-0">
         {faqs.map((faq, index) => (
           <FAQItem key={index} question={faq.question} answer={faq.answer} />
         ))}
@@ -46,64 +42,58 @@ const FAQSection = ({ title, faqs, gradientColors }: FAQSectionProps) => {
   );
 };
 
-const MultipleFAQSections = () => {
-  useEffect(() => {
-    const tl = gsap.timeline();
-    tl.fromTo(
-      ".faq-section1",
-      { opacity: 0, y: 200 },
-      {
-        opacity: 1,
-        y: 0,
-
-        stagger: 0.3,
-        scrollTrigger: {
-          trigger: ".dino1",
-          start: "top 80%",
-          end: "bottom 80%",
-          pin: true,
-          pinSpacing: false,
-
-          scrub: true,
-          markers: true, // Remove this line in production
-        },
-      }
-    ).fromTo(
-      ".faq-section2",
-      { opacity: 0, y: 200 },
-      {
-        opacity: 1,
-        y: -440,
-
-        stagger: 0.3,
-        scrollTrigger: {
-          trigger: ".dino1",
-          start: "top 80% ",
-          end: "bottom 80%",
-          pin: true,
-          pinSpacing: false,
-          
-
-          scrub: true,
-          markers: true, // Remove this line in production
-        },
-      }
-    );
-  }, []);
+const MultipleFAQSections: React.FC = () => {
+  // useEffect(() => {
+  //   const tl = gsap.timeline();
+  //   tl.fromTo(
+  //     ".faq-section1",
+  //     { opacity: 0, y: 200 },
+  //     {
+  //       opacity: 1,
+  //       y: 0,
+  //       stagger: 0.3,
+  //       scrollTrigger: {
+  //         trigger: ".dino1",
+  //         start: "top 80%",
+  //         end: "bottom 80%",
+  //         pin: true,
+  //         pinSpacing: false,
+  //         scrub: true,
+  //       },
+  //     }
+  //   ).fromTo(
+  //     ".faq-section2",
+  //     { opacity: 0, y: 200 },
+  //     {
+  //       opacity: 1,
+  //       y: -440,
+  //       stagger: 0.3,
+  //       scrollTrigger: {
+  //         trigger: ".dino1",
+  //         start: "top 80% ",
+  //         end: "bottom 80%",
+  //         pin: true,
+  //         pinSpacing: false,
+  //         scrub: true,
+  //       },
+  //     }
+  //   );
+  // }, []);
 
   return (
-    <div className="min-h-screen py-8 flex flex-1 w-full hello">
-      <div className="text-6xl font-semibold text-center mb-16 w-1/2">
-        <div className="">
+    <div className="min-h-screen py-8 flex flex-col lg:flex-row w-full">
+      <div className="text-4xl md:text-5xl lg:text-6xl font-semibold text-center mb-8 lg:mb-0 lg:w-1/2">
+        <div className="space-y-2">
           <h1>Frequently</h1>
           <h1>Asked</h1>
           <h1>Questions</h1>
         </div>
-
-        <img src={upperdino} alt="FAQ" className="w-40 h-40 m-14 dino1" />
-        <img src={bottom} alt="FAQ" className="w-40 h-30 m-14 mt-96 dino2" />
+        <div className="relative mt-8 lg:mt-16">
+          <img src={upperdino} alt="Upper Dino" className="w-32 h-32 md:w-40 md:h-40 mx-auto dino1" />
+          <img src={bottom} alt="Bottom Dino" className="w-32 h-24 md:w-40 md:h-30 mx-auto mt-32 lg:mt-64 dino2" />
+        </div>
       </div>
-      <div className="mt-40">
+      <div className="lg:w-1/2 lg:mt-40 px-4">
         <div className="faq-section1">
           <FAQSection
             title={sections[0].title}
