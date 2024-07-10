@@ -5,7 +5,6 @@ body {
     color: #ffffff;
 }
 
-
 .about {
     background-color: #1e1e1e;
     padding: 20px;
@@ -16,25 +15,29 @@ body {
     margin-right: auto;
     margin-top: 30px;
     border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 400px; /* Ensure consistent card height */
 }
 
 .about h1 {
     margin: 0;
     font-size: 2em;
 }
-.topWrapper{
+
+.topWrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
 }
-.topWrapper img{
+
+.topWrapper img {
     max-width: 70px;
 }
 
-.redirect :hover{
+.redirect:hover {
     cursor: pointer;
-
 }
 
 .line {
@@ -61,6 +64,7 @@ body {
     text-decoration: none;
     outline: none;
     transition: background-color 0.3s;
+    width: 11vw;
 }
 
 .register-button .dummy-icon {
@@ -78,37 +82,224 @@ body {
     max-width: 100px;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10vw;
     margin-top: 10px;
-
 }
-.wrapper img{
+
+.wrapper img {
     max-width: 300px;
     margin-left: 5vw;
     margin-right: 5vw;
     margin-top: 5vw;
 }
 
-.imageWrapper img{
-    width: 200px;
-    margin: 0px;
-}
-
-.imageWrapper{
+.imageWrapper {
     display: flex;
     flex-direction: row;
     gap: 0px;
     margin-top: 5vh;
     margin-right: 3vw;
-    
+    align-items: flex-start; /* Ensure images are aligned */
 }
-.arrow img{
+
+.imageWrapper img {
+    width: 200px;
+    margin: 0px;
+}
+
+.arrow {
+    margin-top: 10vh;
+}
+
+.arrow img {
     width: 75px;
 }
-.arrow{
-    margin-top: 10vh;
+
+/* Media Queries for Tablets and Smartphones */
+@media (max-width: 1024px) {
+    .about {
+        padding: 15px;
+        max-width: 90vw;
+    }
+
+    .about h1 {
+        font-size: 1.5em;
+    }
+
+    .about p {
+        font-size: 1em;
+    }
+
+    .dummy-image {
+        max-width: 80px;
+    }
+
+    .register-button {
+        padding: auto;
+        font-size: 0.9em;
+        width: 14vh;
+        height: 5vh;
+    }
+
+    .register-button .dummy-icon {
+        font-size: 1em;
+    }
+
+    .wrapper {
+        flex-direction: row;
+        justify-content: space-between; /* Ensure logos are to the right and text to the left */
+        align-items: center;
+        gap: 2vw;
+    }
+
+    .wrapper img {
+        max-width: 200px;
+        margin: 0;
+    }
+
+    .imageWrapper {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2vh;
+        margin: 0;
+    }
+
+    .imageWrapper img {
+        width: 150px;
+    }
+
+    .arrow {
+        margin-top: 5vh;
+    }
+
+    .arrow img {
+        width: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about {
+        padding: 15px;
+        max-width: 90vw;
+    }
+
+    .about h1 {
+        font-size: 1.5em;
+    }
+
+    .about p {
+        font-size: 1em;
+    }
+
+    .dummy-image {
+        max-width: 80px;
+    }
+
+    .register-button {
+        /* padding: 8px 15px; */
+        padding: auto;
+        font-size: 0.9em;
+        width: 12vh;
+        height: 5vh;
+    }
+
+    .register-button .dummy-icon {
+        font-size: 1em;
+    }
+
+    .wrapper {
+        flex-direction: row;
+        justify-content: space-between; /* Ensure logos are to the right and text to the left */
+        align-items: center;
+        gap: 2vw;
+    }
+
+    .wrapper img {
+        max-width: 200px;
+        margin: 0;
+    }
+
+    .imageWrapper {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2vh;
+        margin: 0;
+    }
+
+    .imageWrapper img {
+        width: 150px;
+    }
+
+    .arrow {
+        margin-top: 5vh;
+    }
+
+    .arrow img {
+        width: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about {
+        padding: 10px;
+        max-width: 95vw;
+    }
+
+    .about h1 {
+        font-size: 1em;
+    }
+
+    .about p {
+        font-size: 0.8em;
+    }
+
+    .dummy-image {
+        max-width: 50px;
+    }
+
+    .register-button {
+        /* padding: 5px 10px; */
+        padding: auto;
+        font-size: 0.8em;
+        width: 14vh;
+        height: 5vh;
+    }
+
+    .register-button .dummy-icon {
+        font-size: 0.8em;
+    }
+
+    .wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 1vw;
+    }
+
+    .wrapper img {
+        max-width: 100px;
+        margin-top: 1vw;
+    }
+
+    .imageWrapper {
+        /* flex-direction: column; */
+        display: flex;
+        align-items: center;
+        gap: 1vh;
+    }
+
+    .imageWrapper img {
+        width: 60px;
+    }
+
+    .arrow {
+        margin-top: 2vh;
+    }
+
+    .arrow img {
+        width: 30px;
+    }
 }

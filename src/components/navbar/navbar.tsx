@@ -69,7 +69,7 @@ const Navbar = () => {
               clipRule="evenodd"
             />
           </svg>
-          <span>Coming Soon!</span>
+          <span id="button-text">Coming Soon!</span>
         </div>
         <div className="hamburger" onClick={toggleMenu}>
           <div></div>
