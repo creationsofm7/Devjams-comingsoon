@@ -24,7 +24,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
       <div className="">
         <h3 className="text-white text-lg font-medium">{question}</h3>
       </div>
-      <div className=" bg-gray-900 text-gray-300">
+      <div className=" contact-c text-gray-300">
         <p>{answer}</p>
       </div>
     </div>
@@ -37,7 +37,7 @@ const FAQSection = ({ title, faqs, gradientColors }: FAQSectionProps) => {
       <div className={`bg-gradient-to-r ${gradientColors} p-4 rounded-t-lg`}>
         <h2 className="text-2xl font-bold text-white">{title}</h2>
       </div>
-      <div className="bg-gray-900 rounded-b-md overflow-hidden border border-gray-700 border-t-0">
+      <div className="contact-c rounded-b-md overflow-hidden border border-gray-700 border-t-0">
         {faqs.map((faq, index) => (
           <FAQItem key={index} question={faq.question} answer={faq.answer} />
         ))}
@@ -62,6 +62,7 @@ const MultipleFAQSections = () => {
           start: "top 80%",
           end: "bottom 80%",
           pin: true,
+          pinSpacing: false,
 
           scrub: true,
           markers: true, // Remove this line in production
@@ -76,9 +77,11 @@ const MultipleFAQSections = () => {
 
         stagger: 0.3,
         scrollTrigger: {
-          trigger: ".dino2",
+          trigger: ".dino1",
           start: "top 80% ",
           end: "bottom 80%",
+          pin: true,
+          pinSpacing: false,
           
 
           scrub: true,
