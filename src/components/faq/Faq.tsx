@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import upperdino from "../../assets/upperdino.png";
@@ -43,41 +43,73 @@ const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs, gradientColors }) 
 };
 
 const MultipleFAQSections: React.FC = () => {
+  useEffect(() => {
+    const faqSection1 = document.querySelector<HTMLElement>(".faq-section1");
+    const faqSection2 = document.querySelector<HTMLElement>(".faq-section2");
+
+    if (faqSection1 && faqSection2) {
+      const section1Height = faqSection1.offsetHeight;
+
+      gsap.fromTo(
+        faqSection2,
+        { opacity: 1, y: 0 },
+        {
+          opacity: 1,
+          y: -0.91 * section1Height,
+          scrollTrigger: {
+            trigger: faqSection1,
+            start: "bottom bottom", // When the bottom of the first card hits the bottom of the viewport
+            // end: "bottom top", // Until the bottom of the first card hits the top of the viewport
+            // end: () until the first card reaches 10% of the viewport height from the top
+            end: () => `+=${0.1 * window.innerHeight}`,
+            scrub: true,
+            markers: true,
+          },
+        }
+      );
+    }
+  }, []);
+
   // useEffect(() => {
-  //   const tl = gsap.timeline();
-  //   tl.fromTo(
-  //     ".faq-section1",
-  //     { opacity: 0, y: 200 },
-  //     {
-  //       opacity: 1,
-  //       y: 0,
-  //       stagger: 0.3,
-  //       scrollTrigger: {
-  //         trigger: ".dino1",
-  //         start: "top 80%",
-  //         end: "bottom 80%",
-  //         pin: true,
-  //         pinSpacing: false,
-  //         scrub: true,
-  //       },
-  //     }
-  //   ).fromTo(
-  //     ".faq-section2",
-  //     { opacity: 0, y: 200 },
-  //     {
-  //       opacity: 1,
-  //       y: -440,
-  //       stagger: 0.3,
-  //       scrollTrigger: {
-  //         trigger: ".dino1",
-  //         start: "top 80% ",
-  //         end: "bottom 80%",
-  //         pin: true,
-  //         pinSpacing: false,
-  //         scrub: true,
-  //       },
-  //     }
-  //   );
+  //   const faqSection1 = document.querySelector<HTMLElement>(".faq-section1");
+  //   const faqSection2 = document.querySelector<HTMLElement>(".faq-section2");
+
+  //   if (faqSection1 && faqSection2) {
+  //     const section1Height = faqSection1.offsetHeight;
+
+  //     const yValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
+
+  //     gsap.fromTo(
+  //       faqSection2,
+  //       { opacity: 1, y: 0 },
+  //       {
+  //         opacity: 1,
+  //         y: yValue,
+  //         scrollTrigger: {
+  //           trigger: faqSection1,
+  //           start: "bottom bottom", // When the bottom of the first card hits the bottom of the viewport
+  //           // end: "bottom top", // Until the bottom of the first card hits the top of the viewport
+  //           // end: () until the first card reaches 10% of the viewport height from the top
+  //           end: () => `+=${0.1 * window.innerHeight}`,
+  //           scrub: true,
+  //           markers: true,
+  //         },
+  //       }
+  //     );
+
+  //     // Optional: Update y value on window resize
+  //     const handleResize = () => {
+  //       const newYValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
+  //       gsap.to(faqSection2, { y: newYValue });
+  //     };
+
+  //     window.addEventListener('resize', handleResize);
+      
+  //     // Cleanup on unmount
+  //     return () => {
+  //       window.removeEventListener('resize', handleResize);
+  //     };
+  //   }
   // }, []);
 
   return (
