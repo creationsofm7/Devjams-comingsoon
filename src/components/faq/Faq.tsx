@@ -67,7 +67,7 @@ const MultipleFAQSections: React.FC = () => {
             start: `bottom+=${offset} bottom`, // Adjusted start position with offset
             end: () => `+=${0.1 * window.innerHeight}`,
             scrub: scrubValue,
-            markers: true,
+            markers: false,
             onUpdate: (self) => {
               const progress = self.progress;
               dino1.style.opacity = `${1 - progress}`;
