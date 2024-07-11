@@ -17,7 +17,7 @@ const AboutSection: React.FC<{ title: string; description: string; imgSrc: strin
         <div className="topWrapper">
             <h1>{title}</h1>
             <div className="redirect">
-                <img src={redirect} alt="Redirect" />
+                <a href="#"><img src={redirect} alt="Redirect" /></a>
             </div>
         </div>
         <div className="line"></div>
@@ -25,10 +25,10 @@ const AboutSection: React.FC<{ title: string; description: string; imgSrc: strin
             <p>{description}</p>
             <img src={imgSrc} alt={title} className="dummy-image" />
         </div>
-        <button className="register-button">
+        <a href="#"><button className="register-button">
             <span className="dummy-icon">↗</span>
             {buttonText}
-        </button>
+        </button></a>
     </div>
 );
 
@@ -37,7 +37,7 @@ const GDSCSection: React.FC = () => (
         <div className="topWrapper">
             <h1>About GDSC</h1>
             <div className="redirect">
-                <img src={redirect} alt="Redirect" />
+                <a  href="https://www.dscvit.com/"  target="_blank"><img src={redirect} alt="Redirect" /></a>
             </div>
         </div>
         <div className="line"></div>
@@ -48,10 +48,10 @@ const GDSCSection: React.FC = () => (
                 <img src={arrow} alt="Arrow" className="arrow" />
             </div>
         </div>
-        <button className="register-button">
+        <a href="https://www.dscvit.com/" target="_blank"><button className="register-button">
             <span className="dummy-icon">↗</span>
             Visit Website
-        </button>
+        </button></a>
     </div>
 );
 
@@ -60,7 +60,7 @@ const VITSection: React.FC = () => (
         <div className="topWrapper">
             <h1>About VIT</h1>
             <div className="redirect">
-                <img src={redirect} alt="Redirect" />
+                <a href="https://vit.ac.in/" target="_blank"><img src={redirect} alt="Redirect" /></a>
             </div>
         </div>
         <div className="line"></div>
@@ -68,10 +68,10 @@ const VITSection: React.FC = () => (
             <p>We do crazy things that matter. Join us, if you dare to dream beyond the binary. Everyone's favourite tech club. Everyone's favourite tech club. Everyone</p>
             <img src={vit} alt="VIT" className="dummy-image" />
         </div>
-        <button className="register-button">
+        <a href="https://vit.ac.in/" target="_blank"><button className="register-button">
             <span className="dummy-icon">↗</span>
             Learn More
-        </button>
+        </button></a>
     </div>
 );
 
