@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+// import styles from './Card.module.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -88,11 +89,12 @@ function Card() {
                 ScrollTrigger.create({
                     trigger: section,
                     start: `top ${5 + index * spacingBetweenCards}%`,
+                    // end: () => lastSection.offsetTop,
                     end: () => lastSection.offsetTop - window.innerHeight,
                     pin: true,
                     pinSpacing: false,
-                    markers: false,
-                    scrub: 1.5, // Adjusted scrub value for smoother animation
+                    markers: true,
+                    scrub: 6,
                 });
             });
         },
@@ -101,8 +103,11 @@ function Card() {
 
     return (
         <div>
-            <div className="w-full p-8" ref={main}>
-                <div id="about">
+            <div
+                className=" w-full p-8"
+                ref={main}
+            >
+                <div  id="about">
                     <AboutSection
                         title="About DevJams"
                         description="We do crazy things that matter. Join us, if you dare to dream beyond the binary. Everyone's favourite tech club. Everyone's favourite tech club. Everyone"
@@ -113,14 +118,14 @@ function Card() {
                 <div id="about">
                     <GDSCSection />
                 </div>
-                <div id="about">
+                <div  id="about">
                     <VITSection />
                 </div>
-                <div id="about"></div>
+                <div  id="about"></div>
             </div>
-            <div className="mb-10"></div>
+            {/* <div className="mb-10"></div> */}
         </div>
     );
 }
 
-export default Card;
+export default Card;    

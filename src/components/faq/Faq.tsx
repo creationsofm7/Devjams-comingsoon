@@ -93,7 +93,7 @@ const MultipleFAQSections: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen py-8 flex flex-col lg:flex-row w-full">
+    <div className="min-h-screen py-8 flex flex-col lg:flex-row w-full mb-0">
       <div className="text-4xl md:text-5xl lg:text-6xl font-semibold text-center mb-8 lg:mb-0 lg:w-1/2">
         <div className="space-y-2 mt-36">
           <h1>Frequently</h1>
