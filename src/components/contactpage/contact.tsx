@@ -1,11 +1,11 @@
 const ContactCard = () => {
   return (
-    <div className="contact-c border-2 rounded-lg shadow-lg p-4 sm:p-6 mx-2 sm:mx-8 bg-gray-800">
+    <div className="contact-c border-2 rounded-lg shadow-lg p-4 sm:p-6 mx-2 sm:mx-8" style={{ backgroundColor: '#202124' }}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
         <h2 className="text-white text-3xl sm:text-5xl font-medium mb-2 sm:mb-0">
           Contact us
         </h2>
-        <button className="group bg-white text-black rounded-full  hover:pr-4 flex items-center transition-all duration-300 ease-in-out">
+        <button className="group bg-white text-black rounded-full hover:pr-4 flex items-center transition-all duration-300 ease-in-out">
           <div className="bg-white rounded-full p-1.5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -27,10 +27,10 @@ const ContactCard = () => {
           </span>
         </button>
       </div>
-      <hr className="mb-4 border-gray-600" />
+      <hr className="mb-4 border-white" />
       <div className="space-y-4 cursor-pointer">
         <ContactPerson name="Dhruv Rajeshkumar Shah" phone="+91 98506 45450" />
-        <hr className="border-gray-600" />
+        <hr className="border-white" />
         <ContactPerson name="Sanvi Chavan" phone="+91 98506 45450" />
       </div>
     </div>

@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
 	extend: {
+		colors: {
+			customGray: '#202124',
+		  },
 	  fontFamily: {
 		sans: ['Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
 	  },
