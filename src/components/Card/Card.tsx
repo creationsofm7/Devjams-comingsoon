@@ -93,7 +93,7 @@ function Card() {
                     end: () => lastSection.offsetTop - window.innerHeight,
                     pin: true,
                     pinSpacing: false,
-                    markers: true,
+                    markers: false,
                 });
             });
         },

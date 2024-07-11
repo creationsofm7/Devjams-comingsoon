@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
 /* Regular weight */
 @font-face {
   font-family: 'Product-sans';
@@ -35,9 +34,8 @@
   font-style: italic;
 }
 
-
 :root {
-  font-family: product-sans, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Product-sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   padding: 0px;
@@ -52,40 +50,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 body {
   background-size: 84px 84px;
-  
   background-image:
     linear-gradient(to right, rgba(128, 128, 128, 0.508) 0.5px, transparent 0.5px),
     linear-gradient(to bottom, rgba(128, 128, 128, 0.508) 0.5px, transparent 0.5px);
   overflow-x: hidden;
-  
-}
-
-
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  padding: 0px;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-
-body {
-  background-size: 40px 40px;
-  
-  background-image:
-    linear-gradient(to right, rgba(128, 128, 128, 0.508) 0.5px, transparent 0.5px),
-    linear-gradient(to bottom, rgba(128, 128, 128, 0.508) 0.5px, transparent 0.5px);
-  
 }

@@ -28,7 +28,7 @@ const ContactCard = () => {
         </button>
       </div>
       <hr className="mb-4 border-gray-600" />
-      <div className="space-y-4">
+      <div className="space-y-4 cursor-pointer">
         <ContactPerson name="Dhruv Rajeshkumar Shah" phone="+91 98506 45450" />
         <hr className="border-gray-600" />
         <ContactPerson name="Sanvi Chavan" phone="+91 98506 45450" />
