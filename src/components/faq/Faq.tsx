@@ -29,7 +29,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 
 const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs, gradientColors }) => {
   return (
-    <div className="max-w-2xl mx-auto  mb-8 faq-section contact-c border-2 border-white rounded-lg">
+    <div className="max-w-2xl mx-auto mb-8 faq-section contact-c border-2 border-white rounded-lg">
       <div className={`bg-gradient-to-r ${gradientColors} p-4 rounded-t-lg`}>
         <h2 className="text-xl md:text-2xl font-bold text-white">{title}</h2>
       </div>
@@ -46,71 +46,50 @@ const MultipleFAQSections: React.FC = () => {
   useEffect(() => {
     const faqSection1 = document.querySelector<HTMLElement>(".faq-section1");
     const faqSection2 = document.querySelector<HTMLElement>(".faq-section2");
+    const dino1 = document.querySelector<HTMLElement>(".dino1");
+    const dino2 = document.querySelector<HTMLElement>(".dino2");
 
-    if (faqSection1 && faqSection2) {
+    if (faqSection1 && faqSection2 && dino1 && dino2) {
       const section1Height = faqSection1.offsetHeight;
+
+      const yValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
+      const scrubValue = window.innerWidth > 768 ? 1 : true;
 
       gsap.fromTo(
         faqSection2,
         { opacity: 1, y: 0 },
         {
           opacity: 1,
-          y: -0.91 * section1Height,
+          y: yValue,
           scrollTrigger: {
             trigger: faqSection1,
-            start: "bottom bottom", // When the bottom of the first card hits the bottom of the viewport
-            // end: "bottom top", // Until the bottom of the first card hits the top of the viewport
-            // end: () until the first card reaches 10% of the viewport height from the top
+            start: "bottom bottom",
             end: () => `+=${0.1 * window.innerHeight}`,
-            scrub: true,
+            scrub: scrubValue,
             markers: true,
-          },
+            onUpdate: (self) => {
+              const progress = self.progress;
+              dino1.style.opacity = `${1 - progress}`;
+              dino2.style.opacity = `${progress}`;
+            }
+          }
         }
       );
+
+      // Optional: Update y value on window resize
+      const handleResize = () => {
+        const newYValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
+        gsap.to(faqSection2, { y: newYValue });
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup on unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     }
   }, []);
-
-  // useEffect(() => {
-  //   const faqSection1 = document.querySelector<HTMLElement>(".faq-section1");
-  //   const faqSection2 = document.querySelector<HTMLElement>(".faq-section2");
-
-  //   if (faqSection1 && faqSection2) {
-  //     const section1Height = faqSection1.offsetHeight;
-
-  //     const yValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
-
-  //     gsap.fromTo(
-  //       faqSection2,
-  //       { opacity: 1, y: 0 },
-  //       {
-  //         opacity: 1,
-  //         y: yValue,
-  //         scrollTrigger: {
-  //           trigger: faqSection1,
-  //           start: "bottom bottom", // When the bottom of the first card hits the bottom of the viewport
-  //           // end: "bottom top", // Until the bottom of the first card hits the top of the viewport
-  //           // end: () until the first card reaches 10% of the viewport height from the top
-  //           end: () => `+=${0.1 * window.innerHeight}`,
-  //           scrub: true,
-  //           markers: true,
-  //         },
-  //       }
-  //     );
-
-  //     // Optional: Update y value on window resize
-  //     const handleResize = () => {
-  //       const newYValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
-  //       gsap.to(faqSection2, { y: newYValue });
-  //     };
-
-  //     window.addEventListener('resize', handleResize);
-      
-  //     // Cleanup on unmount
-  //     return () => {
-  //       window.removeEventListener('resize', handleResize);
-  //     };
-  //   }
-  // }, []);
 
   return (
     <div className="min-h-screen py-8 flex flex-col lg:flex-row w-full">
