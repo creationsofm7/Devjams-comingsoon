@@ -48,13 +48,14 @@ const MultipleFAQSections: React.FC = () => {
     const faqSection2 = document.querySelector<HTMLElement>(".faq-section2");
     const dino1 = document.querySelector<HTMLElement>(".dino1");
     const dino2 = document.querySelector<HTMLElement>(".dino2");
-
+  
     if (faqSection1 && faqSection2 && dino1 && dino2) {
       const section1Height = faqSection1.offsetHeight;
-
-      const yValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
+      const offset = 150; // Adjust this value to set the offset after the bottom of the first card
+  
+      const yValue = window.innerWidth <= 768 ? -0.935 * section1Height : -0.91 * section1Height;
       const scrubValue = window.innerWidth > 768 ? 1 : true;
-
+  
       gsap.fromTo(
         faqSection2,
         { opacity: 1, y: 0 },
@@ -63,7 +64,7 @@ const MultipleFAQSections: React.FC = () => {
           y: yValue,
           scrollTrigger: {
             trigger: faqSection1,
-            start: "bottom bottom",
+            start: `bottom+=${offset} bottom`, // Adjusted start position with offset
             end: () => `+=${0.1 * window.innerHeight}`,
             scrub: scrubValue,
             markers: true,
@@ -75,15 +76,15 @@ const MultipleFAQSections: React.FC = () => {
           }
         }
       );
-
+  
       // Optional: Update y value on window resize
       const handleResize = () => {
         const newYValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
         gsap.to(faqSection2, { y: newYValue });
       };
-
+  
       window.addEventListener('resize', handleResize);
-
+  
       // Cleanup on unmount
       return () => {
         window.removeEventListener('resize', handleResize);
