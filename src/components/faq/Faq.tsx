@@ -94,14 +94,14 @@ const MultipleFAQSections: React.FC = () => {
   return (
     <div className="min-h-screen py-8 flex flex-col lg:flex-row w-full">
       <div className="text-4xl md:text-5xl lg:text-6xl font-semibold text-center mb-8 lg:mb-0 lg:w-1/2">
-        <div className="space-y-2">
+        <div className="space-y-2 mt-36">
           <h1>Frequently</h1>
           <h1>Asked</h1>
           <h1>Questions</h1>
         </div>
         <div className="relative mt-8 lg:mt-16">
-          <img src={upperdino} alt="Upper Dino" className="w-32 h-32 md:w-40 md:h-40 mx-auto dino1" />
-          <img src={bottom} alt="Bottom Dino" className="w-32 h-24 md:w-40 md:h-30 mx-auto mt-32 lg:mt-64 dino2" />
+          <img src={upperdino} alt="Upper Dino" className="w-32 h-32 md:w-40 md:h-30 mx-auto dino1" />
+          <img src={bottom} alt="Bottom Dino" className="w-32 h-24 md:w-40 md:h-30 mx-auto mt-16 lg:mt-6 dino2" />
         </div>
       </div>
       <div className="lg:w-1/2 lg:mt-40 px-4">
