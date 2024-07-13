@@ -24,3 +24,8 @@
   z-index: 1;
 
 }
+
+.game-bg {
+  background-image: url("../src/assets/dino-bg.png");
+  background-size: cover;
+}
