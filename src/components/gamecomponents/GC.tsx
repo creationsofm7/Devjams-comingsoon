@@ -31,7 +31,7 @@ const GAME_HEIGHT = 300;
 const JUMP_FORCE = 900;
 const GRAVITY = 2000;
 const OBSTACLE_WIDTH = 30;
-const OBSTACLE_HEIGHT = 50;
+const OBSTACLE_HEIGHT = 65;
 const DINO_WIDTH = 70;
 const DINO_HEIGHT = 100;
 
@@ -256,7 +256,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
         </div>
         <div className="absolute top-2 right-2 m-12 text-xl">
           HI {gameState.score.toString().padStart(4, "0")}{" "}
-          {Math.floor(Math.random() * 10000).toString().padStart(4, "0")}
+          
         </div>
       </div>
 
