@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import upperdino from "../../assets/upperdino.png";
 import bottom from "../../assets/bottom.png";
-import { sections } from "../Card/sections";
+import { sections } from "../faq/sections";
 
 gsap.registerPlugin(ScrollTrigger);
 
