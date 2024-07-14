@@ -29,13 +29,13 @@ interface DinoGameProps {
 }
 
 const GAME_HEIGHT = 300;
-const JUMP_FORCE = 800;
+const JUMP_FORCE = 700;
 const GRAVITY = 1700;
 const OBSTACLE_WIDTH = 40;
 const OBSTACLE_HEIGHT = 65;
 const DINO_WIDTH = 120;
 const DINO_HEIGHT = 200;
-const ANIMATION_SPEED = 7; // frames per second
+const ANIMATION_SPEED = 5; // frames per second
 
 const DinoGame: React.FC<DinoGameProps> = ({
   cactusImage = cactus,
