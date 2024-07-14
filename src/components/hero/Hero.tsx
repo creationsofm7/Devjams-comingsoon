@@ -3,7 +3,7 @@ import DinoGame from '../gamecomponents/GC';
 
 const Hero: React.FC = () => {
     return (
-        <div className="h-screen text-center place-content-center contact-c ">
+        <div className="text-center place-content-center contact-c ">
             <DinoGame />
         </div>
     );

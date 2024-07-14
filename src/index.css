@@ -1,48 +1,48 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Regular weight */
 @font-face {
-  font-family: 'Product-sans';
-  src: url('./styles/fonts/Product-sans.ttf') format('truetype');
+  font-family: "Product-sans";
+  src: url("./styles/fonts/Product-sans.ttf") format("truetype");
   font-weight: normal; /* 400 */
   font-style: normal;
 }
 
 /* Bold weight */
 @font-face {
-  font-family: 'Product-sans';
-  src: url('./styles/fonts/Product-sans-bold.ttf') format('truetype');
+  font-family: "Product-sans";
+  src: url("./styles/fonts/Product-sans-bold.ttf") format("truetype");
   font-weight: bold; /* 700 */
   font-style: normal;
 }
 
 /* Italic style */
 @font-face {
-  font-family: 'Product-sans';
-  src: url('./styles/fonts/Product-sans-italic.ttf') format('truetype');
+  font-family: "Product-sans";
+  src: url("./styles/fonts/Product-sans-italic.ttf") format("truetype");
   font-weight: normal; /* 400 */
   font-style: italic;
 }
 
 /* Bold Italic */
 @font-face {
-  font-family: 'Product-sans';
-  src: url('./styles/fonts/Product-sans-bold-italic.ttf') format('truetype');
+  font-family: "Product-sans";
+  src: url("./styles/fonts/Product-sans-bold-italic.ttf") format("truetype");
   font-weight: bold; /* 700 */
   font-style: italic;
 }
 
 :root {
-  font-family: 'Product-sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: product-sans, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   padding: 0px;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #202124;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -50,10 +50,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+.gridBackground {
   background-size: 84px 84px;
-  background-image:
-    linear-gradient(to right, rgba(128, 128, 128, 0.508) 0.5px, transparent 0.5px),
-    linear-gradient(to bottom, rgba(128, 128, 128, 0.508) 0.5px, transparent 0.5px);
-  overflow-x: hidden;
+  background-size: fill;
+  background-image: linear-gradient(
+      to right,
+      rgb(52, 53, 56) 0.5px,
+      transparent 0.5px
+    ),
+    linear-gradient(to bottom, rgb(52, 53, 56) 0.5px, transparent 0.5px);
 }

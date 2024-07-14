@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import cactus from "../../assets/cactus.png";
 import ground from "../../assets/ground.svg";
-import dino from "../../assets/dino.svg";
+import dinoRun1 from "../../assets/dino1.svg";
+import dinoRun2 from "../../assets/dino2.svg";
 import cloud from "../../assets/cloud.png";
 import dvj from "../../assets/dvj.svg";
 
@@ -18,25 +19,25 @@ interface GameState {
   dinoY: number;
   obstacles: { x: number; y: number }[];
   clouds: { x: number; y: number }[];
+  dinoFrame: number;
 }
 
 interface DinoGameProps {
-  dinoImage?: string;
   cactusImage?: string;
   groundImage?: string;
   cloudImage?: string;
 }
 
 const GAME_HEIGHT = 300;
-const JUMP_FORCE = 900;
-const GRAVITY = 2000;
-const OBSTACLE_WIDTH = 30;
+const JUMP_FORCE = 1200;
+const GRAVITY = 1500;
+const OBSTACLE_WIDTH = 40;
 const OBSTACLE_HEIGHT = 65;
-const DINO_WIDTH = 70;
-const DINO_HEIGHT = 100;
+const DINO_WIDTH = 120;
+const DINO_HEIGHT = 200;
+const ANIMATION_SPEED = 7; // frames per second
 
 const DinoGame: React.FC<DinoGameProps> = ({
-  dinoImage = dino,
   cactusImage = cactus,
   groundImage = ground,
   cloudImage = cloud,
@@ -48,9 +49,12 @@ const DinoGame: React.FC<DinoGameProps> = ({
     dinoY: 0,
     obstacles: [],
     clouds: [],
+    dinoFrame: 0,
   });
 
   const [showStartButton, setShowStartButton] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [doublePressCount, setDoublePressCount] = useState<number>(0);
   const gameRef = useRef<HTMLDivElement>(null);
   const jumpVelocity = useRef<number>(0);
   const lastUpdateTime = useRef<number>(0);
@@ -71,6 +75,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
       obstacles: [],
       clouds: [],
       dinoY: 0,
+      dinoFrame: 0,
     }));
     setShowStartButton(false);
     jumpVelocity.current = 0;
@@ -84,6 +89,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
       highScore: Math.max(prev.highScore, prev.score),
     }));
     setShowStartButton(true);
+    setDoublePressCount(0);
   }, []);
 
   const updateGameState = useCallback((deltaTime: number) => {
@@ -141,12 +147,16 @@ const DinoGame: React.FC<DinoGameProps> = ({
         return prev;
       }
 
+      // Update dino animation frame
+      const newDinoFrame = (prev.dinoFrame + 1) % (60 / ANIMATION_SPEED);
+
       return {
         ...prev,
         score: prev.score + 1,
         obstacles: newObstacles,
         clouds: newClouds,
         dinoY: newDinoY,
+        dinoFrame: newDinoFrame,
       };
     });
   }, [endGame]);
@@ -165,6 +175,19 @@ const DinoGame: React.FC<DinoGameProps> = ({
       requestRef.current = requestAnimationFrame(gameLoop);
     }
   }, [gameState.isPlaying, jump, updateGameState]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -187,7 +210,18 @@ const DinoGame: React.FC<DinoGameProps> = ({
     const handleTouchStart = (e: TouchEvent) => {
       e.preventDefault();
       if (!gameState.isPlaying) {
-        startGame();
+        if (isMobile) {
+          setDoublePressCount((prev) => {
+            if (prev === 1) {
+              startGame();
+              return 0;
+            }
+            setTimeout(() => setDoublePressCount(0), 300);
+            return prev + 1;
+          });
+        } else {
+          startGame();
+        }
       } else {
         jumpPressed.current = true;
       }
@@ -214,7 +248,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
       gameRef.current?.removeEventListener("touchend", handleTouchEnd);
       cancelAnimationFrame(requestRef.current!);
     };
-  }, [gameState.isPlaying, startGame, gameLoop]);
+  }, [gameState.isPlaying, startGame, gameLoop, isMobile]);
 
   const memoizedClouds = useMemo(() => (
     gameState.clouds.map((cloud, index) => (
@@ -245,18 +279,21 @@ const DinoGame: React.FC<DinoGameProps> = ({
     ))
   ), [gameState.obstacles, cactusImage]);
 
+  const dinoImage = gameState.dinoFrame < 30 / ANIMATION_SPEED ? dinoRun1 : dinoRun2;
+
   return (
     <div
       ref={gameRef}
-      className="relative w-full h-screen overflow-hidden game-bg text-white font-mono"
+      className={`relative overflow-hidden game-bg text-white font-mono ${
+        isMobile ? 'w-full h-[50vh] ' : 'w-full h-screen '
+      }`}
     >
       <div className="absolute inset-0">
-        <div className="absolute top-2 left-2 m-12 text-xl">
+        <div className="absolute top-2 left-2 m-4 text-md">
           OVR HI {gameState.highScore.toString().padStart(4, "0")}
         </div>
-        <div className="absolute top-2 right-2 m-12 text-xl">
+        <div className="absolute top-2 right-2 m-4 text-md">
           HI {gameState.score.toString().padStart(4, "0")}{" "}
-          
         </div>
       </div>
 
@@ -271,7 +308,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
       <img
         src={dinoImage}
         alt="Dino"
-        className="absolute left-[50px] translate-y-6"
+        className={`absolute left-[50px] ${isMobile ? 'translate-y-16' : 'translate-y-12'}`}
         style={{
           bottom: gameState.dinoY + 24,
           width: DINO_WIDTH,
@@ -283,9 +320,13 @@ const DinoGame: React.FC<DinoGameProps> = ({
 
       {!gameState.isPlaying && (
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <img src={dvj} alt="what" />
+          <img src={dvj} alt="what" className="w-1/2 h-auto" />
           {showStartButton && (
-            <p className="text-xl mb-4">press space to play!</p>
+            <p className="text-xl mb-4">
+              {isMobile
+                ? `Double tap to play! (${doublePressCount}/2)`
+                : "Press space to play!"}
+            </p>
           )}
         </div>
       )}

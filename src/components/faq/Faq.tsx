@@ -20,7 +20,7 @@ interface FAQSectionProps {
 
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
   return (
-    <div className="border border-gray-700 p-4">
+    <div className="bg-[#212124] border border-gray-700 p-4">
       <h3 className="text-white text-lg font-medium mb-2">{question}</h3>
       <p className="text-gray-300">{answer}</p>
     </div>

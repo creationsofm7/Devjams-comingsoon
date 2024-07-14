@@ -65,29 +65,28 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   ];
 
   return (
-    <div className="contact-c text-white p-4 sm:p-6 md:p-8 rounded-lg">
-      <h2 className="text-2xl sm:text-1xl font-normal md:text-4xl  mb-4 sm:mb-6 md:mb-8 text-center">
+    <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-around gap-8 p-4">
+      <h1 className="text-6xl w-full text-center">
         Registrations Opening Soon!
-      </h2>
-      <div className="flex flex-wrap justify-center gap-4">
-        {timerComponents.map(({ label, value, colors }) => (
-          <>
-            <div key={label} className="text-center  ">
-              <div className="contact-c rounded-lg rounded-b-lg px-14 sm:px-14 md:px-14 py-3 sm:py-4 relative overflow-hidden border-2 ">
-                <div className="text-5xl sm:text-5xl md:text-6xl font-bold  hollow-text ">
-                  {value?.toString().padStart(2, "0") || "00"}
-                </div>
-                <div className="text-xs sm:text-sm mb-3 font-medium">{label}</div>
-               
-              </div>
-               <div
-                  className={`bottom-2 left-0 right-0 h-3 border rounded-b-lg bg-gradient-to-r ${colors} move`}
-                ></div>
-                <div
-                  className={`bottom-0 left-0 right-0 h-3  border-2 border-t rounded-b-lg bg-gradient-to-r ${colors} move-2`}
-                ></div>
+      </h1>
+      <div className="flex flex-wrap w-full items-center justify-center gap-8">
+        {timerComponents.map((timerComponent) => (
+          <div className="flex flex-col max-w-full w-[300px]">
+            <div className="max-w-full w-[300px] max-h-full h-[200px] border-2 rounded-2xl bg-[#202124] z-10 flex flex-col items-center justify-center">
+              <p className="text-8xl">
+                {timerComponent.value < 10
+                  ? `0${timerComponent.value}`
+                  : timerComponent.value}
+              </p>
+              <p className="text-2xl">{timerComponent.label}</p>
             </div>
-          </>
+            <div
+              className={`max-w-full w-[300px] border-2 h-[35px] rounded-b-2xl -mt-4 z-0 bg-gradient-to-r ${timerComponent.colors}`}
+            ></div>
+            <div
+              className={`max-w-full w-[300px] border-2 h-[35px] rounded-b-2xl -mt-4 -z-10 bg-gradient-to-r ${timerComponent.colors}`}
+            ></div>
+          </div>
         ))}
       </div>
     </div>
