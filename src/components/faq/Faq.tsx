@@ -44,17 +44,17 @@ const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs, gradientColors }) 
 
 const MultipleFAQSections: React.FC = () => {
   useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
     const faqSection1 = document.querySelector<HTMLElement>(".faq-section1");
     const faqSection2 = document.querySelector<HTMLElement>(".faq-section2");
     const dino1 = document.querySelector<HTMLElement>(".dino1");
     const dino2 = document.querySelector<HTMLElement>(".dino2");
   
-    if (faqSection1 && faqSection2 && dino1 && dino2) {
+    if (faqSection1 && faqSection2 && dino1 && dino2 && !isMobile) {
       const section1Height = faqSection1.offsetHeight;
-      const offset = 150; // Adjust this value to set the offset after the bottom of the first card
+      const offset = 150;
   
-      const yValue = window.innerWidth <= 768 ? -0.935 * section1Height : -0.91 * section1Height;
-      const scrubValue = window.innerWidth > 768 ? 1 : true;
+      const yValue = -0.91 * section1Height;
   
       gsap.fromTo(
         faqSection2,
@@ -64,9 +64,9 @@ const MultipleFAQSections: React.FC = () => {
           y: yValue,
           scrollTrigger: {
             trigger: faqSection1,
-            start: `bottom+=${offset} bottom`, // Adjusted start position with offset
+            start: `bottom+=${offset} bottom`,
             end: () => `+=${0.1 * window.innerHeight}`,
-            scrub: scrubValue,
+            scrub: 1,
             markers: false,
             onUpdate: (self) => {
               const progress = self.progress;
@@ -77,15 +77,21 @@ const MultipleFAQSections: React.FC = () => {
         }
       );
   
-      // Optional: Update y value on window resize
       const handleResize = () => {
-        const newYValue = window.innerWidth <= 768 ? -0.97 * section1Height : -0.91 * section1Height;
-        gsap.to(faqSection2, { y: newYValue });
+        if (window.innerWidth <= 768) {
+          // Disable animations for mobile
+          gsap.killTweensOf(faqSection2);
+          faqSection2.style.transform = '';
+          dino1.style.opacity = '1';
+          dino2.style.opacity = '1';
+        } else {
+          // Re-enable animations for desktop
+          gsap.to(faqSection2, { y: yValue });
+        }
       };
   
       window.addEventListener('resize', handleResize);
   
-      // Cleanup on unmount
       return () => {
         window.removeEventListener('resize', handleResize);
       };
