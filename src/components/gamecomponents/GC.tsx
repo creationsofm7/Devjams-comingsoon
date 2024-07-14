@@ -29,8 +29,8 @@ interface DinoGameProps {
 }
 
 const GAME_HEIGHT = 300;
-const JUMP_FORCE = 1200;
-const GRAVITY = 1500;
+const JUMP_FORCE = 800;
+const GRAVITY = 1700;
 const OBSTACLE_WIDTH = 40;
 const OBSTACLE_HEIGHT = 65;
 const DINO_WIDTH = 120;
