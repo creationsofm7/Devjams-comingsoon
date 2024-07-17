@@ -1,6 +1,7 @@
-import devjams from "../../assets/devjams.svg";
-import gdsc from "../../assets/gdsc.svg";
-import vit from "../../assets/vit.svg";
+
+import devjams from "/assets/devjams.svg";
+import gdsc from "/assets/gdsc.svg";
+import vit from "/assets/vit.svg";
 
 const Data =  {
     "aboutDevjams": {

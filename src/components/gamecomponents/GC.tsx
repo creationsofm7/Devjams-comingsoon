@@ -5,12 +5,12 @@ import React, {
   useRef,
   useMemo,
 } from "react";
-import cactus from "../../assets/cactus.png";
-import ground from "../../assets/ground.svg";
-import dinoRun1 from "../../assets/dino1.svg";
-import dinoRun2 from "../../assets/dino2.svg";
-import cloud from "../../assets/cloud.png";
-import dvj from "../../assets/dvj.svg";
+import cactus from "/assets/cactus.png";
+import ground from "/assets/ground.svg";
+import dinoRun1 from "/assets/dino1.svg";
+import dinoRun2 from "/assets/dino2.svg";
+import cloud from "/assets/cloud.png";
+import dvj from "/assets/dvj.svg";
 
 interface GameState {
   isPlaying: boolean;
@@ -20,6 +20,7 @@ interface GameState {
   obstacles: { x: number; y: number }[];
   clouds: { x: number; y: number }[];
   dinoFrame: number;
+  groundOffset: number;
 }
 
 interface DinoGameProps {
@@ -29,13 +30,14 @@ interface DinoGameProps {
 }
 
 const GAME_HEIGHT = 300;
-const JUMP_FORCE = 700;
-const GRAVITY = 1700;
+const JUMP_FORCE = 1200;
+const GRAVITY = 1500;
 const OBSTACLE_WIDTH = 40;
-const OBSTACLE_HEIGHT = 65;
+const OBSTACLE_HEIGHT = 55;
 const DINO_WIDTH = 120;
 const DINO_HEIGHT = 200;
-const ANIMATION_SPEED = 5; // frames per second
+const ANIMATION_SPEED = 7; // frames per second
+const GROUND_SPEED = 500; // pixels per second
 
 const DinoGame: React.FC<DinoGameProps> = ({
   cactusImage = cactus,
@@ -50,6 +52,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
     obstacles: [],
     clouds: [],
     dinoFrame: 0,
+    groundOffset: 0,
   });
 
   const [showStartButton, setShowStartButton] = useState<boolean>(true);
@@ -76,6 +79,7 @@ const DinoGame: React.FC<DinoGameProps> = ({
       clouds: [],
       dinoY: 0,
       dinoFrame: 0,
+      groundOffset: 0,
     }));
     setShowStartButton(false);
     jumpVelocity.current = 0;
@@ -92,89 +96,100 @@ const DinoGame: React.FC<DinoGameProps> = ({
     setDoublePressCount(0);
   }, []);
 
-  const updateGameState = useCallback((deltaTime: number) => {
-    setGameState((prev) => {
-      // Update dino position
-      let newDinoY = prev.dinoY + jumpVelocity.current * deltaTime;
-      jumpVelocity.current -= GRAVITY * deltaTime;
+  const updateGameState = useCallback(
+    (deltaTime: number) => {
+      setGameState((prev) => {
+        // Update dino position
+        let newDinoY = prev.dinoY + jumpVelocity.current * deltaTime;
+        jumpVelocity.current -= GRAVITY * deltaTime;
 
-      if (newDinoY < 0) {
-        newDinoY = 0;
-        jumpVelocity.current = 0;
-      }
-
-      // Move obstacles
-      const newObstacles = prev.obstacles
-        .map((obs) => ({ ...obs, x: obs.x - 5 }))
-        .filter((obs) => obs.x > -OBSTACLE_WIDTH);
-
-      // Add new obstacle
-      if (Math.random() < 0.02 && newObstacles.length < 3) {
-        const lastObstacle = newObstacles[newObstacles.length - 1];
-        if (!lastObstacle || lastObstacle.x < 800 - OBSTACLE_WIDTH - 200) {
-          newObstacles.push({ x: 800, y: GAME_HEIGHT - OBSTACLE_HEIGHT });
+        if (newDinoY < 0) {
+          newDinoY = 0;
+          jumpVelocity.current = 0;
         }
+
+        // Move ground
+        const newGroundOffset =
+          (prev.groundOffset + GROUND_SPEED * deltaTime) % 1200;
+
+        // Move obstacles
+        const newObstacles = prev.obstacles
+          .map((obs) => ({ ...obs, x: obs.x - GROUND_SPEED * deltaTime }))
+          .filter((obs) => obs.x > -OBSTACLE_WIDTH);
+
+        // Add new obstacle
+        if (Math.random() < 0.02 * deltaTime * 60 && newObstacles.length < 3) {
+          const lastObstacle = newObstacles[newObstacles.length - 1];
+          if (!lastObstacle || lastObstacle.x < 800 - OBSTACLE_WIDTH - 200) {
+            newObstacles.push({ x: 800, y: GAME_HEIGHT - OBSTACLE_HEIGHT });
+          }
+        }
+
+        // Move clouds
+        const newClouds = prev.clouds
+          .map((cloud) => ({ ...cloud, x: cloud.x - 30 * deltaTime }))
+          .filter((cloud) => cloud.x > -70);
+
+        // Add new cloud
+        if (Math.random() < 0.005 * deltaTime * 60 && newClouds.length < 3) {
+          newClouds.push({ x: 800, y: Math.random() * 50 + 50 });
+        }
+
+        // Check collision
+        const dinoHitbox = {
+          x: 50,
+          y: GAME_HEIGHT - DINO_HEIGHT - newDinoY,
+          width: DINO_WIDTH,
+          height: DINO_HEIGHT,
+        };
+
+        const collision = newObstacles.some(
+          (obs) =>
+            dinoHitbox.x < obs.x + OBSTACLE_WIDTH &&
+            dinoHitbox.x + DINO_WIDTH > obs.x &&
+            dinoHitbox.y < obs.y + OBSTACLE_HEIGHT &&
+            dinoHitbox.y + DINO_HEIGHT > obs.y
+        );
+
+        if (collision) {
+          endGame();
+          return prev;
+        }
+
+        // Update dino animation frame
+        const newDinoFrame = (prev.dinoFrame + ANIMATION_SPEED * deltaTime) % 2;
+
+        return {
+          ...prev,
+          score: prev.score + Math.floor(60 * deltaTime),
+          obstacles: newObstacles,
+          clouds: newClouds,
+          dinoY: newDinoY,
+          dinoFrame: newDinoFrame,
+          groundOffset: newGroundOffset,
+        };
+      });
+    },
+    [endGame]
+  );
+
+  const gameLoop = useCallback(
+    (currentTime: number) => {
+      if (gameState.isPlaying) {
+        const deltaTime = (currentTime - lastUpdateTime.current) / 1000;
+        lastUpdateTime.current = currentTime;
+
+        if (jumpPressed.current) {
+          jump();
+          jumpPressed.current = false;
+        }
+
+        updateGameState(deltaTime);
+        requestRef.current = requestAnimationFrame(gameLoop);
       }
-
-      // Move clouds
-      const newClouds = prev.clouds
-        .map((cloud) => ({ ...cloud, x: cloud.x - 1 }))
-        .filter((cloud) => cloud.x > -70);
-
-      // Add new cloud
-      if (Math.random() < 0.005 && newClouds.length < 3) {
-        newClouds.push({ x: 800, y: Math.random() * 50 + 50 });
-      }
-
-      // Check collision
-      const dinoHitbox = {
-        x: 50,
-        y: GAME_HEIGHT - DINO_HEIGHT - newDinoY,
-        width: DINO_WIDTH,
-        height: DINO_HEIGHT,
-      };
-
-      const collision = newObstacles.some(
-        (obs) =>
-          dinoHitbox.x < obs.x + OBSTACLE_WIDTH &&
-          dinoHitbox.x + DINO_WIDTH > obs.x &&
-          dinoHitbox.y < obs.y + OBSTACLE_HEIGHT &&
-          dinoHitbox.y + DINO_HEIGHT > obs.y
-      );
-
-      if (collision) {
-        endGame();
-        return prev;
-      }
-
-      // Update dino animation frame
-      const newDinoFrame = (prev.dinoFrame + 1) % (60 / ANIMATION_SPEED);
-
-      return {
-        ...prev,
-        score: prev.score + 1,
-        obstacles: newObstacles,
-        clouds: newClouds,
-        dinoY: newDinoY,
-        dinoFrame: newDinoFrame,
-      };
-    });
-  }, [endGame]);
-
-  const gameLoop = useCallback((currentTime: number) => {
-    if (gameState.isPlaying) {
-      const deltaTime = (currentTime - lastUpdateTime.current) / 1000;
-      lastUpdateTime.current = currentTime;
-
-      if (jumpPressed.current) {
-        jump();
-        jumpPressed.current = false;
-      }
-
-      updateGameState(deltaTime);
-      requestRef.current = requestAnimationFrame(gameLoop);
-    }
-  }, [gameState.isPlaying, jump, updateGameState]);
+    },
+    [gameState.isPlaying, jump, updateGameState]
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -184,9 +199,13 @@ const DinoGame: React.FC<DinoGameProps> = ({
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    return () => {
+    const cleanup = () => {
       window.removeEventListener("resize", handleResize);
     };
+
+    return cleanup;
+
+    return cleanup;
   }, []);
 
   useEffect(() => {
@@ -250,65 +269,93 @@ const DinoGame: React.FC<DinoGameProps> = ({
     };
   }, [gameState.isPlaying, startGame, gameLoop, isMobile]);
 
-  const memoizedClouds = useMemo(() => (
-    gameState.clouds.map((cloud, index) => (
-      <img
-        key={index}
-        src={cloudImage}
-        alt="Cloud"
-        className="absolute"
-        style={{ left: cloud.x, top: cloud.y }}
-      />
-    ))
-  ), [gameState.clouds, cloudImage]);
+  const memoizedClouds = useMemo(
+    () =>
+      gameState.clouds.map((cloud, index) => (
+        <img
+          key={index}
+          src={cloudImage}
+          alt="Cloud"
+          className="absolute"
+          style={{ left: cloud.x, top: cloud.y }}
+        />
+      )),
+    [gameState.clouds, cloudImage]
+  );
 
-  const memoizedObstacles = useMemo(() => (
-    gameState.obstacles.map((obs, index) => (
-      <img
-        key={index}
-        src={cactusImage}
-        alt="Cactus"
-        className="absolute"
-        style={{
-          left: obs.x,
-          bottom: 24,
-          width: OBSTACLE_WIDTH,
-          height: OBSTACLE_HEIGHT,
-        }}
-      />
-    ))
-  ), [gameState.obstacles, cactusImage]);
+  const memoizedObstacles = useMemo(
+    () =>
+      gameState.obstacles.map((obs, index) => (
+        <img
+          key={index}
+          src={cactusImage}
+          alt="Cactus"
+          className="absolute"
+          style={{
+            left: obs.x,
+            bottom: 72,
+            width: 45,
+            height: 78,
+          }}
+        />
+      )),
+    [gameState.obstacles, cactusImage]
+  );
 
-  const dinoImage = gameState.dinoFrame < 30 / ANIMATION_SPEED ? dinoRun1 : dinoRun2;
+  const dinoImage = gameState.dinoFrame < 1 ? dinoRun1 : dinoRun2;
 
   return (
     <div
       ref={gameRef}
       className={`relative overflow-hidden game-bg text-white font-mono ${
-        isMobile ? 'w-full h-[50vh] ' : 'w-full h-screen '
+        isMobile ? "w-full h-[65vh] " : "w-full h-screen "
       }`}
     >
       <div className="absolute inset-0">
-        <div className="absolute top-2 left-2 m-4 text-md">
+        <div className="absolute top-2 left-2 m-4 text-xl">
           OVR HI {gameState.highScore.toString().padStart(4, "0")}
         </div>
-        <div className="absolute top-2 right-2 m-4 text-md">
+        <div className="absolute top-2 right-2 m-4 text-xl">
           HI {gameState.score.toString().padStart(4, "0")}{" "}
         </div>
       </div>
 
+      <svg
+        className="absolute inset-0 w-full h-full"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <pattern
+            id="stars"
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            patternUnits="userSpaceOnUse"
+          >
+            <circle cx="50" cy="50" r="1" fill="white" />
+            <circle cx="25" cy="25" r="0.5" fill="white" />
+            <circle cx="75" cy="75" r="0.7" fill="white" />
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#stars)" />
+      </svg>
+
       {memoizedClouds}
 
-      <img
-        src={groundImage}
-        alt="Ground"
-        className="absolute bottom-0 w-full"
+      <div
+        className="absolute bottom-0 w-[2400px] h-24"
+        style={{
+          backgroundImage: `url(${groundImage})`,
+          backgroundRepeat: "repeat-x",
+          transform: `translateX(-${gameState.groundOffset}px)`,
+        }}
       />
 
       <img
         src={dinoImage}
         alt="Dino"
-        className={`absolute left-[50px] ${isMobile ? 'translate-y-16' : 'translate-y-12'}`}
+        className={`absolute left-[50px] `}
         style={{
           bottom: gameState.dinoY + 24,
           width: DINO_WIDTH,
@@ -319,10 +366,10 @@ const DinoGame: React.FC<DinoGameProps> = ({
       {memoizedObstacles}
 
       {!gameState.isPlaying && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <img src={dvj} alt="what" className="w-1/2 h-auto" />
+        <div className="absolute inset-0 flex flex-col items-center top-28  m-4">
+          <img src={dvj} alt="DevJams Logo" />
           {showStartButton && (
-            <p className="text-xl mb-4">
+            <p className="text-2xl mb-4 animate-pulse">
               {isMobile
                 ? `Double tap to play! (${doublePressCount}/2)`
                 : "Press space to play!"}

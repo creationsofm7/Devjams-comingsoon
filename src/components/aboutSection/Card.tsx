@@ -1,4 +1,4 @@
-import redirect from "../../assets/redirect.svg";
+import redirect from "/assets/redirect.svg";
 
 function Card(props: {
   key: number;
@@ -12,9 +12,9 @@ function Card(props: {
   return (
     <div
       key={props.key}
-      className="h-[600px] md:h-[420px] w-full max-w-[1280px] m-auto flex flex-col items-center justify-center border-2 rounded-2xl bg-[#202124] p-6"
+      className="h-[600px] md:h-[420px] w-full max-w-[1280px] m-auto flex flex-col items-center justify-center border-2 rounded-2xl bg-[#202124] p-6 mt-2"
     >
-      <div className="flex flex-row items-center justify-between pb-6 border-b-2 w-full">
+      <div className="flex flex-row items-center justify-between pb-6 border-b-2 w-full mt-2">
         <h1 className="text-4xl md:text-6xl">{props.title}</h1>
         <a
           href={props.externalLink}

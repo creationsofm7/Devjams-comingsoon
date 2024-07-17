@@ -66,14 +66,14 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
 
   return (
     <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-around gap-8 p-4">
-      <h1 className="text-6xl w-full text-center">
+      <h1 className="text-3xl md:text-4xl lg:text-6xl w-full text-center">
         Registrations Opening Soon!
       </h1>
-      <div className="flex flex-wrap w-full items-center justify-center gap-8">
+      <div className="flex flex-wrap w-full items-center justify-center gap-8 ">
         {timerComponents.map((timerComponent) => (
           <div className="flex flex-col max-w-full w-[300px]">
             <div className="max-w-full w-[300px] max-h-full h-[200px] border-2 rounded-2xl bg-[#202124] z-10 flex flex-col items-center justify-center">
-              <p className="text-8xl">
+              <p className="text-8xl countdown-text">
                 {timerComponent.value < 10
                   ? `0${timerComponent.value}`
                   : timerComponent.value}

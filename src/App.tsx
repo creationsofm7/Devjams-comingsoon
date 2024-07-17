@@ -17,15 +17,17 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Hero />
-      <CountdownTimer targetDate={targetDate} />
-      <MarqueeComp />
-      <div className="gridBackground">
-        <AboutSection />
-        <MultipleFAQSections />
-        <ContactCard />
-        <SocialMediaBar />
-        <PinnedSVG />
+      <div className="mt-20">
+        <Hero />
+        <CountdownTimer targetDate={targetDate} />
+        <MarqueeComp />
+        <div className="gridBackground">
+          <AboutSection />
+          <MultipleFAQSections />
+          <ContactCard />
+          <SocialMediaBar />
+          <PinnedSVG />
+        </div>
       </div>
     </div>
   );

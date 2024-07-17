@@ -45,7 +45,7 @@ export default function AboutSection() {
   );
 
   return (
-    <div className="p-4 md:pt-40 md:p-24 " ref={main}>
+    <div className="p-4 md:pt-40 md:p-24 " id="about" ref={main}>
       {AboutData.map((item: AboutDataType, index: number) => {
         return (
           <div id="about">

@@ -7,7 +7,7 @@ const MarqueeComp: React.FC = () => {
       speed={110}
       gradient={false}
       autoFill={true}
-      className="marquee overflow-y-hidden p-6 border-t-2 border-b-2 border-gray-300"
+      className="marquee overflow-y-hidden p-6 border-t-2 border-b-2 border-gray-300 filter grayscale"
     >
       <p className="text-4xl">
         🌐 Do Crazy Things That Matter&nbsp;
